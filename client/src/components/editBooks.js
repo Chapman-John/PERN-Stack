@@ -1,21 +1,25 @@
 import React, { Fragment, useState } from "react";
 
-const EditBooks = () => {
+const EditBooks = () =>
+{
     const [name, setName] = useState("");
     const [author, setAuthor] = useState("");
 
-    const onSubmitForm = async e => {
+    const onSubmitForm = async e =>
+    {
         e.preventDefault();
-        try {
+        try
+        {
             const body = { name, author };
-            const response = await fetch("http://localhost:6000/books", {
+            const response = await fetch("http://localhost:9000/books", {
                 method: "UPDATE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
             // console.log(response);
             window.location = "/";
-        } catch (err) {
+        } catch (err)
+        {
             console.error(err.message);
         }
     }
