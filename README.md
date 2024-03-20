@@ -8,7 +8,7 @@ Additionally, you may choose to use this project under the terms of the [GNU Gen
 
 
 install
-- server: npm init and npm i express pg cors
+- server: npm init and npm i express pg cors dotenv
 - client: npx create-react-app client
 
 compile

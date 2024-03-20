@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 const pool = require("./database");
 
+require('dotenv').config();
+
 //middleware 
 app.use(cors());
 // app.use(cors({
@@ -11,32 +13,38 @@ app.use(cors());
 //     // credentials: true // if you're using credentials (e.g., cookies) in your requests
 // }));
 app.use(express.json());
-  
+
 
 //routes
 
-app.post("/books", async (req, res) => {
-    try {
+app.post("/books", async (req, res) =>
+{
+    try
+    {
         const { name } = req.body;
         const { author } = req.body;
-        const newBook = await pool.query("INSERT INTO books (name, author) VALUES ($1, $2) RETURNING *", 
-        [name, author]
+        const newBook = await pool.query("INSERT INTO books (name, author) VALUES ($1, $2) RETURNING *",
+            [name, author]
         );
 
         res.json(newBook.rows[0]);
 
-    } catch (err) {
+    } catch (err)
+    {
         console.error(err.message);
     }
 });
 
-app.get("/books", async (req, res) => {
-    try {
+app.get("/books", async (req, res) =>
+{
+    try
+    {
         const allBooks = await pool.query("SELECT * FROM books");
         res.json(allBooks.rows);
 
-        
-    } catch (err) {
+
+    } catch (err)
+    {
         console.error(err.message);
     }
 });
@@ -47,7 +55,7 @@ app.get("/books", async (req, res) => {
 //         const { name } = req.body;
 //         const { author } = req.body;
 //         const updateBooks = await pool.query("UPDATE books");
-        
+
 //     } catch (err) {
 //         console.error(err.message);
 //     }
@@ -65,6 +73,7 @@ app.get("/books", async (req, res) => {
 //     }
 // });
 
-app.listen(9000, () => {
+app.listen(9000, () =>
+{
     console.log("Server is running on port 9000");
 });
