@@ -1,48 +1,86 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+
+import EditBook from "./editBooks";
 
 const ListBooks = () =>
 {
-    const [name, setName] = useState("");
-    const [author, setAuthor] = useState("");
+    const [books, setBooks] = useState([]);
 
-    const onSubmitForm = async e =>
+    //delete book function
+
+    const deleteBook = async id =>
     {
-        e.preventDefault();
         try
         {
-            const body = { name, author };
-            const response = await fetch("http://localhost:9000/books", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body)
+            const deleteBook = await fetch(`http://localhost:9000/books/${id}`, {
+                method: "DELETE"
             });
-            // console.log(response);
-            window.location = "/";
+            // const response = await fetch(`http://localhost:9000/books/${id}`, {
+            //     method: "DELETE"
+            // });
+
+            setBooks(books.filter(books => books.books_id !== id));
         } catch (err)
         {
             console.error(err.message);
         }
-    }
+    };
+
+    const getBooks = async () =>
+    {
+        try
+        {
+            const response = await fetch("http://localhost:9000/books");
+            const jsonData = await response.json();
+
+            setBooks(jsonData);
+        } catch (err)
+        {
+            console.error(err.message);
+        }
+    };
+
+    useEffect(() =>
+    {
+        getBooks();
+    }, []);
+
+    console.log(books);
+
     return (
         <Fragment>
-            <h1 className="text-center mt-5">List Books</h1>
-            <form className="d-flex mt-5" onSubmit={onSubmitForm}>
-                <input
-                    type="text"
-                    className="form-control"
-                    value={name}
-                    onChange={e => setName(e.target.value)} />
-                <input
-                    type="text"
-                    className="form-control"
-                    value={author}
-                    onChange={e => setAuthor(e.target.value)} />
-                <button className="btn btn-success">List</button>
-            </form>
-
+            <table className="table mt-5 text-center">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Author</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {books.map(books => (
+                        <tr key={books.books_id}>
+                            <td>{books.name}</td>
+                            <td>{books.author}</td>
+                            <td>
+                                {/* <EditBook book={book} /> */}
+                                <EditBook books={books} />
+                            </td>
+                            <td>
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={() => deleteBook(books.books_id)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </Fragment>
     );
-
 };
 
 export default ListBooks;

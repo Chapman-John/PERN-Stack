@@ -7,71 +7,104 @@ require('dotenv').config();
 
 //middleware 
 app.use(cors());
-// app.use(cors({
-//     origin: 'http://localhost:3000' // or wherever your React app is hosted
-//     // origin: 'http://localhost:3000', // or wherever your React app is hosted
-//     // credentials: true // if you're using credentials (e.g., cookies) in your requests
-// }));
 app.use(express.json());
 
 
-//routes
+// Routes
 
+// Create a new book
 app.post("/books", async (req, res) =>
 {
     try
     {
-        const { name } = req.body;
-        const { author } = req.body;
-        const newBook = await pool.query("INSERT INTO books (name, author) VALUES ($1, $2) RETURNING *",
+        const { name, author } = req.body;
+        const newBook = await pool.query(
+            "INSERT INTO books (name, author) VALUES ($1, $2) RETURNING *",
             [name, author]
         );
-
         res.json(newBook.rows[0]);
-
     } catch (err)
     {
         console.error(err.message);
+        res.status(500).send("Server Error");
     }
 });
 
+// Get all books
 app.get("/books", async (req, res) =>
 {
     try
     {
         const allBooks = await pool.query("SELECT * FROM books");
         res.json(allBooks.rows);
-
-
     } catch (err)
     {
         console.error(err.message);
+        res.status(500).send("Server Error");
     }
 });
 
-// app.put("/books/:id", async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const { name } = req.body;
-//         const { author } = req.body;
-//         const updateBooks = await pool.query("UPDATE books");
+// Get a single book by ID
+app.get("/books/:id", async (req, res) =>
+{
+    try
+    {
+        const { id } = req.params;
+        const book = await pool.query(
+            "SELECT * FROM books WHERE books_id = $1",
+            [id]
+        );
 
-//     } catch (err) {
-//         console.error(err.message);
-//     }
-// });
+        if (book.rows.length === 0)
+        {
+            return res.status(404).json({ message: "Book not found" });
+        }
 
-// app.delete("/books/:id", async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const deleteBooks = await pool.query("DELETE FROM books WHERE books_id = $1",
-//         [id]
-//         );
-//         res.json("Book was deleted")
-//     } catch (err) {
-//         console.error(err.message);
-//     }
-// });
+        res.json(book.rows[0]);
+    } catch (err)
+    {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// Update a book
+app.put("/books/:id", async (req, res) =>
+{
+    try
+    {
+        const { id } = req.params;
+        const { name, author } = req.body;
+        const updateBook = await pool.query(
+            "UPDATE books SET name = $1, author = $2 WHERE books_id = $3 RETURNING *",
+            [name, author, id]
+        );
+        res.json(updateBook.rows[0]);
+        res.json("Book was updated!");
+    } catch (err)
+    {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// Delete a book
+app.delete("/books/:id", async (req, res) =>
+{
+    try
+    {
+        const { id } = req.params;
+        const deleteBook = await pool.query(
+            "DELETE FROM books WHERE books_id = $1",
+            [id]
+        );
+        res.json("Book was deleted");
+    } catch (err)
+    {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
 
 app.listen(9000, () =>
 {
