@@ -12,8 +12,8 @@ function App()
     <Fragment>
       <div className='container'>
         <InputBooks />
-        {/* <EditBooks /> */}
-        {/* <ListBooks /> */}
+        <EditBooks />
+        <ListBooks />
       </div>
     </Fragment>
   );
