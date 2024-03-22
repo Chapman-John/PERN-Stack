@@ -106,6 +106,12 @@ app.delete("/books/:id", async (req, res) =>
     }
 });
 
+// 404 Error Middleware
+app.use((req, res, next) =>
+{
+    res.status(404).json({ message: "Resource not found" });
+});
+
 app.listen(9000, () =>
 {
     console.log("Server is running on port 9000");
