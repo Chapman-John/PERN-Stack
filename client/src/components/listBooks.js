@@ -45,7 +45,7 @@ const ListBooks = () =>
         getBooks();
     }, []);
 
-    console.log(books);
+    // console.log(books);
 
     return (
         <Fragment>

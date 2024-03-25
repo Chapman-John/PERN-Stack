@@ -80,7 +80,7 @@ app.put("/books/:id", async (req, res) =>
             [name, author, id]
         );
         res.json(updateBook.rows[0]);
-        res.json("Book was updated!");
+        // res.json("Book was updated!");
     } catch (err)
     {
         console.error(err.message);
