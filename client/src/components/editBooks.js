@@ -2,13 +2,8 @@ import React, { Fragment, useState } from "react";
 
 const EditBook = ({ books }) =>
 {
-    // if (!books) return null;
     const [name, setName] = useState(books.name);
     const [author, setAuthor] = useState(books.author);
-    // const [name, setName] = useState(books ? books.name : '');
-    // const [author, setAuthor] = useState(books ? books.author : '');
-
-    //edit book function
 
     const updateBook = async e =>
     {
@@ -25,8 +20,8 @@ const EditBook = ({ books }) =>
                 }
             );
 
-            // window.location = "/";
-            window.location.reload();
+            // window.location.reload(); // Refresh the page after update
+            window.location = "/";
         } catch (err)
         {
             console.error(err.message);
@@ -34,7 +29,6 @@ const EditBook = ({ books }) =>
     };
 
     return (
-
         <Fragment>
             <button
                 type="button"
@@ -45,11 +39,19 @@ const EditBook = ({ books }) =>
                 Edit
             </button>
 
-            <div className="modal fade" id={`id${books.books_id}`} tabIndex="-1" role="dialog" aria-labelledby="editBookModal" aria-hidden="true">
+            <div
+                className="modal fade"
+                id={`id${books.books_id}`}
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="EditBook"
+                aria-hidden="true"
+            // onClick={() => setName(books.name)}
+            >
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="editBookModal">Edit Book</h5>
+                            <h5 className="modal-title" id="EditBook">Edit Book</h5>
                             <button type="button" className="close" data-dismiss="modal">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -71,7 +73,7 @@ const EditBook = ({ books }) =>
                             />
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-warning" onClick={(e) => updateBook(e)}>Save changes</button>
+                            <button type="button" className="btn btn-warning" onClick={updateBook}>Save changes</button>
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -82,4 +84,3 @@ const EditBook = ({ books }) =>
 };
 
 export default EditBook;
-
