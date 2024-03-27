@@ -1,17 +1,19 @@
-import React, { Fragment, useState } from "react";
-import $ from 'jquery';
+import React, { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 const EditBook = ({ books }) =>
-// const EditBook = () =>
 {
-    // console.log(books.books_id);
     const [name, setName] = useState(books.name);
     const [author, setAuthor] = useState(books.author);
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const updateBook = async e =>
     {
         e.preventDefault();
-        console.log("Updating book...");
+        // console.log("Updating book...");
         try
         {
             const body = { name, author };
@@ -28,16 +30,12 @@ const EditBook = ({ books }) =>
                 throw new Error('Failed to update book');
             }
 
-
             const updatedBook = await response.json();
             console.log('Updated Book:', updatedBook);
 
-
-            alert('Book was updated successfully');
+            // alert('Book was updated successfully');
 
             // Refresh the page after update
-            // window.location.reload();
-            // window.location.reload(); // Refresh the page after update
             window.location = "/";
         } catch (err)
         {
@@ -46,60 +44,44 @@ const EditBook = ({ books }) =>
     };
 
     return (
-        <Fragment>
-            <button
-                type="button"
-                className="btn btn-warning"
-                data-toggle="modal"
-                data-target={`#id${books.books_id}`}
-            // onClick={`id${books.books_id}`}
-            >
+        <>
+            <Button variant="primary" onClick={handleShow}>
                 Edit
-            </button>
+            </Button>
 
-            <div
-                className="modal fade"
-                id={`id${books.books_id}`}
-                tabIndex="-1"
-                role="dialog"
-                // aria-labelledby="EditBook"
-                aria-labelledby={`id${books.books_id}Label`}
-                aria-hidden="true"
-            // onClick={() => setName(books.name)}
-            >
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="EditBook">Edit Book</h5>
-                            <button type="button" className="close" data-dismiss="modal">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                className="form-control mt-2"
-                                placeholder="Author"
-                                value={author}
-                                onChange={(e) => setAuthor(e.target.value)}
-                            />
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-warning" onClick={updateBook}>Save changes</button>
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Book</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="modal-body">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            className="form-control mt-2"
+                            placeholder="Author"
+                            value={author}
+                            onChange={(e) => setAuthor(e.target.value)}
+                        />
                     </div>
-                </div>
-            </div>
-        </Fragment>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={updateBook}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
-};
+}
 
 export default EditBook;

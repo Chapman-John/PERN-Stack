@@ -8,8 +8,8 @@ Additionally, you may choose to use this project under the terms of the [GNU Gen
 
 
 install
-- server: npm init and npm i express pg cors dotenv
-- client: npx create-react-app client
+- server: npm init and npm i express pg cors dotenv 
+- client: npx create-react-app client and npm i react-bootstrap bootstrap
 
 compile
 - server: npx nodemon index.js
