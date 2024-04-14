@@ -60,13 +60,32 @@ To start the server with automatic reloading, you can use `nodemon`. If you do n
 
 ```bash
 npm install -g nodemon
+```
+
+To run the server with nodemon, execute:
+
+```bash
+npx nodemon index.js
+```
+
+Client Setup
+
+To compile and start the client application, execute:
+
+```bash
+npm start
+```
+
+PostgreSQL Database Setup
+
+To start the PostgreSQL database named booksdb, use the appropriate command for your environment. This command varies depending on your system's configuration:
+
+```bash
+# Replace this placeholder with the actual command to start your PostgreSQL database
+start booksdb
+```
+
+Please adjust the database startup command according to your PostgreSQL installation and environment settings.
 
 
-
-- server: npm init and npm i express pg cors dotenv 
-- client: npx create-react-app client and npm i react-bootstrap bootstrap
-
-compile
-- server: npx nodemon index.js
-- client: npm start
-- postgres: start booksdb
+This document provides a cohesive guide to setting up all components of your project. If you need any more details or have specific requirements, please provide them, and I can help adjust the instructions accordingly.
