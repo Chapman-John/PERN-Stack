@@ -81,7 +81,7 @@ PostgreSQL Database Setup
 To start the PostgreSQL database named booksdb, use the appropriate command for your environment. This command varies depending on your system's configuration:
 
 ```bash
-# Replace this placeholder with the actual command to start your PostgreSQL database
+# start your PostgreSQL database
 start booksdb
 ```
 
