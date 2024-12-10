@@ -13,7 +13,7 @@ This project is dual-licensed under:
 
 To set up this project, you will need to install dependencies for both the server and client components.
 
-### Server Setup
+### Server Setup 
 
 1. **Initialize your Node.js project**:
     First, you need to initialize a new Node.js project if you haven't already done so. This will create a `package.json` file in your project directory.
